@@ -1,0 +1,77 @@
+<template>
+	<div>
+		<myp-tabbar ref="tabbar" :tabs="tabs" :tabStyle="tabStyle" @selected="tabbarSwitched">
+			<find-tab></find-tab>
+			<exp-tab></exp-tab>
+			<now-tab></now-tab>
+			<news-tab></news-tab>
+			<mine-tab></mine-tab>
+		</myp-tabbar>
+	</div>
+</template>
+
+<script>
+import findTab from './find.nvue';
+import expTab from './exp.nvue';
+import nowTab from './now.nvue';
+import newsTab from './news.nvue';
+import mineTab from './mine.nvue';
+export default {
+	components: {
+		findTab,
+		expTab,
+		nowTab,
+		newsTab,
+		mineTab
+	},
+	data() {
+		return {
+			tabs: [
+				{
+					icon: '/static/tabs/home.png',
+					selectedIcon: '/static/tabs/homeH.png',
+					title: '发现',
+					selectedTitle: '发现'
+				},
+				{
+					icon: '/static/tabs/discovery.png',
+					selectedIcon: '/static/tabs/discoveryH.png',
+					title: '经验',
+					selectedTitle: '经验',
+					badge: 12
+				},
+				{
+					icon: '/static/tabs/mine.png',
+					selectedIcon: '/static/tabs/mineH.png',
+					title: '即刻',
+					selectedTitle: '即刻',
+					dot: true
+				},
+				{
+					icon: '/static/tabs/mine.png',
+					selectedIcon: '/static/tabs/mineH.png',
+					title: '动态',
+					selectedTitle: '动态',
+					dot: true
+				},
+				{
+					icon: '/static/tabs/mine.png',
+					selectedIcon: '/static/tabs/mineH.png',
+					title: '我的',
+					selectedTitle: '我的',
+					dot: true
+				}
+			],
+			tabStyle: {
+				iconStyle: 'width:22px;height:22px;',
+				selectedIconStyle: 'width:22px;height:22px;',
+				titleStyle: 'font-size:12px;color:#888888;',
+				selectedTitleStyle: 'font-size:12px;color:#108EE9;',
+				boxStyle: 'background-color: #FFFFFF; border-top-width:0.5px;border-top-color:#000;border-top-style:solid;'
+			}
+		};
+	}
+};
+</script>
+
+<style lang="scss"></style>

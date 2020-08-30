@@ -1,0 +1,153 @@
+<template>
+	<view class="find">
+		
+		<myp-height bgType="inverse" height="status-nav" boxStyle="width:750rpx;">
+			<myp-x-status></myp-x-status>
+			<view class=" myp-flex-row myp-align-center myp-justify-between">
+				<myp-tabs-h
+					:hasIndicator="false"
+					:value="currentTab"
+					scrollSize="600"
+					width="0"
+					:itemStyle="itemStyle"
+					:activeTextStyle="activeTextStyle"
+					:textStyle="textStyle"
+					textLabel="name"
+					textSize="l"
+					:isTap="true"
+					:items="tabs"
+					activeType="error"
+					@change="toChangeTab"
+				></myp-tabs-h>
+				<myp-icon name="search" boxStyle="margin-right:30rpx" type="forth" iconStyle="font-weight: bold" size="20" @iconClicked="toSearch"></myp-icon>
+			</view>
+			
+		</myp-height>
+
+		<myp-content-box>
+			<!-- 在这里可以直接使用 flex 来决策高度 -->
+			<swiper style="flex:1;width:750rpx;" @change="onSwiperChange">
+				<!-- 推荐 -->
+				<swiper-item><recommend-list ref="recommend" :parentId="mypListId" :current="currentTab" :index="0" @user="toUser"></recommend-list></swiper-item>
+				<!-- 关注 -->
+				<swiper-item><care-list ref="care" :parentId="mypListId" :current="currentTab" :index="0" @user="toUser"></care-list></swiper-item>
+				<!-- 最新 -->
+				<swiper-item><latest-list ref="latest" :parentId="mypListId" :current="currentTab" :index="0" @user="toUser"></latest-list></swiper-item>
+				<!-- 佳作 -->
+				<swiper-item><share-list ref="share" :parentId="mypListId" :current="currentTab" :index="0" @user="toUser"></share-list></swiper-item>
+			</swiper>
+		</myp-content-box>
+		<nav-down-pop :show="downVisible" @select="changedFilter" @cancel="toToggleDropDown"></nav-down-pop>
+	</view>
+</template>
+
+<script>
+import recommendList from './components/recommendList.vue';
+import navDownPop from './components/navDownPop.vue';
+import downPop from './components/downPop.vue';
+import latestList from './components/latestList.vue';
+import shareList from './components/shareList.vue';
+import careList from './components/careList.vue';
+import { homePageFeatured } from '@/api/project.js';
+
+export default {
+	components: { recommendList, latestList, shareList, careList, navDownPop },
+	data() {
+		return {
+			currentTab: 0,
+			downVisible: false,
+			arr: [],
+			textStyle: 'font-size: 34rpx; color:#D6D6D6 ',
+			activeTextStyle: 'font-weight: bold;font-size: 40rpx;',
+			itemStyle: 'margin-left: 50rpx;margin-right: 6rpx',
+			positionBoxStyle: 'background-color:#ffffff;width: 280rpx;left: 50rpx; border-radius: 30rpx;',
+			tabs: [
+				{
+					name: '首推',
+					arr: [
+						{
+							name: '全部推荐',
+							short: '全部'
+						},
+						{
+							name: '首页推荐',
+							short: '首推'
+						},
+						{
+							name: '编辑推荐',
+							short: '编推'
+						},
+						{
+							name: '普通推荐',
+							short: '普推'
+						}
+					]
+				},
+				{
+					name: '关注'
+				},
+				{
+					name: '最新'
+				},
+				{
+					name: '佳作分享'
+				}
+			]
+		};
+	},
+	methods: {
+		changedFilter(val) {
+			this.current = Object.assign({}, val);
+			this.downVisible = false;
+		},
+		toToggleDropDown() {
+			this.downVisible = !this.downVisible;
+		},
+		toToggle(e) {
+			console.log(e, 123);
+			e && e.stopPropagation && e.stopPropagation();
+			this.downVisible = !this.downVisible;
+		},
+		toSelect(val) {
+			this.service = val;
+			this.downVisible = false;
+		},
+		init() {
+			console.log('init');
+			homePageFeatured({ tag: 'HOME', page: 0 }).then(res => {
+				this.arr = res.content;
+			});
+		},
+		onSwiperChange(e) {
+			// this.toSwitchTab(e.detail.current);
+			this.currentTab = e.detail.current;
+		},
+		toChangeTab(e) {
+			if (e == 0) {
+				this.toToggleDropDown();
+			}
+		},
+		toUser() {
+			console.log(1231);
+		},
+		toSearch() {
+			// console.log("search")
+			this.toToggleDropDown();
+		}
+	},
+	mounted() {
+		// this.init();
+	}
+};
+</script>
+
+<style lang="scss" scoped>
+@import '@/mypUI/mypui.scss';
+.Q {
+	background-color: red;
+	width: 300rpx;
+	left: 20rpx;
+	background-color: #ff9090;
+	border-radius: 10rpx;
+}
+</style>

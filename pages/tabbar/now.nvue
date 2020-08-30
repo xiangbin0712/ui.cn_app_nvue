@@ -1,0 +1,20 @@
+<template>
+	<view class="now">
+		<myp-navbar :fixed="false" title="now"></myp-navbar>
+		<view class="">now</view>
+	</view>
+</template>
+
+<script>
+export default {
+	components: {},
+	data() {
+		return {};
+	},
+	methods: {}
+};
+</script>
+
+<style lang="scss" scoped>
+@import '@/mypUI/mypui.scss';
+</style>
